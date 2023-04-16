@@ -12,7 +12,7 @@ def create_secret() :
     big_secret = secrets.randbits(bits_in_secret)
 
     # print the big_secret
-    print("your big secret (in hex) : " + hex(big_secret)[2:])
+    print("your big secret (in hex) : " + hex(big_secret))
     print()
 
     # get file name to save it to
@@ -43,6 +43,24 @@ def next_prime(x):
         if(is_prime(x)) :
             return x
 
+def read_hex_from_file(filename) :
+    f = open(filename, "r")
+    val = 0
+    for c in f.read() :
+        val = (val << 4)
+        if(ord('0') <= ord(c) and ord(c) <= ord('9')) :
+            val = (val | (ord(c)-ord('0')))
+        elif(ord('a') <= ord(c) and ord(c) <= ord('f')) :
+            val = (val | (ord(c)-ord('a')+10))
+        elif(ord('A') <= ord(c) and ord(c) <= ord('F')) :
+            val = (val | (ord(c)-ord('A')+10))
+        else :
+            print("Error: input file does not have a hex number")
+            print()
+            return (-1, False)
+    f.close()
+    return (val, True)
+
 def share_secret() :
     # receive the number of bits for the big secret
     bits_in_secret = int(input("enter number of bits of the big secret to be shared : "))
@@ -58,21 +76,10 @@ def share_secret() :
         return
 
     # read the big secret from the file
-    f = open(big_secret_filename, "r")
-    big_secret = 0
-    for c in f.read() :
-        big_secret = (big_secret << 4)
-        if(ord('0') <= ord(c) and ord(c) <= ord('9')) :
-            big_secret = (big_secret | (ord(c)-ord('0')))
-        elif(ord('a') <= ord(c) and ord(c) <= ord('f')) :
-            big_secret = (big_secret | (ord(c)-ord('a')+10))
-        elif(ord('A') <= ord(c) and ord(c) <= ord('F')) :
-            big_secret = (big_secret | (ord(c)-ord('A')+10))
-        else :
-            print("Error: input file not a hex number")
-            print()
-            return
-    f.close()
+    big_secret = read_hex_from_file(big_secret_filename)
+    if(big_secret[1] == False) :
+        return
+    big_secret = big_secret[0]
 
     print("big secret read : " + hex(big_secret))
     print()
@@ -90,7 +97,7 @@ def share_secret() :
 
     p = next_prime(max(n, big_secret))
 
-    print("next largest prime p = " + hex(p)[2:])
+    print("next largest prime p = " + hex(p))
     print()
 
     # store coeffcients of polynomial in the increasing order of their order in the polynomial
@@ -122,20 +129,40 @@ def share_secret() :
     print("printing shared keys :")
     print()
     for i,k in shared_keys.items() :
-        print(str(i) + " : " + hex(k)[2:])
+        print(str(i) + " : " + hex(k))
         print()
     
     print("saving shared keys with name as `"+ big_secret_filename +"_shared_<index>`")
     for i,k in shared_keys.items() :
-        f = open(big_secret_filename + "_shared_" + hex(i)[2:], "w")
-        f.write(hex(k))
+        f = open(big_secret_filename + "_shared_" + str(i), "w")
+        f.write(hex(k)[2:])
         f.close()
 
     pass
 
 def reconstruct_secret() :
-    shared_key_prefix = input("enter prefix of the shared keys (for instance 'mykey_shared_' ) : ")
+    # same as threshold k in the paper
+    k = int(input("enter k - the number of individuals that must be present : "))
     print()
+
+    shared_keys = {}
+    for i in range(0, k) :
+        rw = input("enter index and shared_key file name (space separated) : ")
+        print()
+        rw = rw.split(" ")
+        index = int(rw[0])
+        key = read_hex_from_file(rw[1])
+        if(key[1] == False) :
+            return
+        key = key[0]
+        shared_keys[index] = key
+
+    # printing shared keys
+    print("printing shared keys read :")
+    print()
+    for i,k in shared_keys.items() :
+        print(str(i) + " : " + hex(k))
+        print()
 
     pass
 
