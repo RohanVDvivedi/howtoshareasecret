@@ -48,4 +48,14 @@ def getMatrixInverse(m, integral_inverse = False):
     for r in range(len(adjoint)):
         for c in range(len(inverse)):
             inverse[r][c] = (inverse[r][c] // determinant) if integral_inverse else (inverse[r][c] / determinant)
+
+    # return inverse
     return inverse
+
+def getMatrixMultiplication(X, Y) :
+    result = [ [0] * len(Y[0]) ] * len(X)
+    for i in range(len(X)):
+        for j in range(len(Y[0])):
+            for k in range(len(Y)):
+                result[i][j] += X[i][k] * Y[k][j]
+    return result
