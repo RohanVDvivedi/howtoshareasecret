@@ -146,17 +146,26 @@ def solve_to_get_polynomial_coeffcients(shared_keys) :
             x.append(i ** j)
         a.append(x)
         b.append([k])
+    
+    print("a = ")
+    print(a)
+    print("b = ")
+    print(b)
 
-    a_inv = matrix_ops.getMatrixInverse(a)
-    if(a_inv[0] == False) :
+    a_inv = matrix_ops.getMatrixInverse(a, integral_inverse = True)
+    if(a_inv[1] == False) :
         print("Error: couldn't find inverse of a desired matrix")
         print()
         return ([0], False)
+    a_inv = a_inv[0]
 
+    print("ainv = ")
     print(a_inv)
-    print(b)
 
     x = matrix_ops.getMatrixMultiplication(a_inv, b)
+
+    print("x = ")
+    print(x)
 
     x = matrix_ops.transposeMatrix(x)[0]
 
@@ -205,6 +214,10 @@ def reconstruct_secret() :
 
     # print the big secret key
     big_secret = coeff_of_polynomial[0]
+    if(big_secret < 0) :
+        print("Error: we computed your big secret as a negativ value")
+        print()
+        return
     print("your big secret is : " + hex(big_secret))
     print()
 
