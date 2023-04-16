@@ -1,8 +1,7 @@
-import os
 import secrets
-import struct
 import numpy
 import matrix_ops
+import gmpy2
 
 def create_secret() :
     # receive the number of bits for the big secret
@@ -31,7 +30,7 @@ def create_secret() :
     f.close()
 
 def is_prime(x):
-    for j in range(2,int(x**0.5)+1):
+    for j in range(2, int(gmpy2.sqrt(gmpy2.mpz(x))+1) ):
         if (x%j==0):
             return False
     return True
@@ -91,20 +90,20 @@ def share_secret() :
     k = int(input("enter k - the number of individuals that must be present : "))
     print()
 
-    print("finding prime number bigger than both n and big secret")
-    print()
+    #print("finding prime number bigger than both n and big secret")
+    #print()
 
-    p = next_prime(max(n, big_secret))
+    p = big_secret * 2 #next_prime(max(n, big_secret))
 
-    print("next largest prime p = " + hex(p))
-    print()
+    #print("next largest prime p = " + hex(p))
+    #print()
 
     # store coeffcients of polynomial in the increasing order of their order in the polynomial
     # i.e. coeff[0] * x^0 + coeff[1] * x^1 + coeff[2] * x^2 + coeff[3] * x^3 + ...
     coeff_of_polynomial = []
     coeff_of_polynomial.append(big_secret)
     for i in range(0, k-1) :
-        coeff_of_polynomial.append(int(numpy.random.uniform() * p))
+        coeff_of_polynomial.append(int(numpy.random.uniform() * gmpy2.mpz(p)))
     
     # print the coeffcients
     print("printing polynomial that we selected : ")
