@@ -158,6 +158,9 @@ def solve_to_get_polynomial_coeffcients(shared_keys) :
 
     x = matrix_ops.transposeMatrix(x)[0]
 
+    for i in range(0, len(x)) :
+        x[i] = int(x[i])
+
     return (x, True)
 
 def reconstruct_secret() :
@@ -188,6 +191,7 @@ def reconstruct_secret() :
         print()
 
     print("attempting to solve and get coeffcients of the polynomial")
+    print()
     coeff_of_polynomial = solve_to_get_polynomial_coeffcients(shared_keys)
     if(coeff_of_polynomial[1] == False) :
         print("Error: as described above")
