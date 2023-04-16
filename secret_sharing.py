@@ -138,6 +138,7 @@ def share_secret() :
         f.write(hex(k)[2:])
         f.close()
 
+def solve_to_get_polynomial_coeffcients(shared_keys) :
     pass
 
 def reconstruct_secret() :
@@ -167,7 +168,32 @@ def reconstruct_secret() :
         print(str(i) + " : " + hex(k))
         print()
 
-    pass
+    print("attempting to solve and get coeffcients of the polynomial")
+    coeff_of_polynomial = solve_to_get_polynomial_coeffcients(shared_keys)
+
+    # print the coeffcients
+    print("printing polynomial that we got : ")
+    for i in range(0, len(coeff_of_polynomial)) :
+        print(("  " if (i == 0) else "+ ") + "x ^ " + str(i) + " * " + str(hex(coeff_of_polynomial[i])))
+    print()
+
+    # print the big secret key
+    big_secret = coeff_of_polynomial[0]
+    print("your big secret is : " + hex(big_secret))
+    print()
+
+    # get file name to save it to
+    output_filename = input("enter filename to save the revealed big secret : ")
+    print()
+
+    if(output_filename != "") :
+        # write big secret to output file
+        f = open(output_filename, "w")
+        f.write(hex(big_secret)[2:])
+        f.close()
+    else :
+        print("filename empty - hence nothing saved")
+        print()
 
 def main():
     exit_called = False
