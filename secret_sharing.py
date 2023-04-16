@@ -125,15 +125,18 @@ def share_secret() :
         print(str(i) + " : " + hex(k)[2:])
         print()
     
-    print("saving shared keys with name as `"+ big_secret_filename +"_<index>`")
+    print("saving shared keys with name as `"+ big_secret_filename +"_shared_<index>`")
     for i,k in shared_keys.items() :
-        f = open(big_secret_filename + "_" + hex(i)[2:], "w")
+        f = open(big_secret_filename + "_shared_" + hex(i)[2:], "w")
         f.write(hex(k))
         f.close()
 
     pass
 
 def reconstruct_secret() :
+    shared_key_prefix = input("enter prefix of the shared keys (for instance 'mykey_shared_' ) : ")
+    print()
+
     pass
 
 def main():
