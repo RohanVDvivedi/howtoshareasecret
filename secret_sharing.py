@@ -147,7 +147,7 @@ def solve_to_get_polynomial_coeffcients(shared_keys) :
         a.append(x)
         b.append([k])
 
-    a_inv = matrix_ops.getMatrixInverse(a, integral_inverse = False)
+    a_inv = matrix_ops.getMatrixInverse(a)
     if(a_inv[1] == False) :
         print("Error: couldn't find inverse of a desired matrix")
         print()

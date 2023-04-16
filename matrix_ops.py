@@ -25,7 +25,7 @@ def getMatrixDeternminant(m):
         determinant += ((-1)**c)*m[0][c]*getMatrixDeternminant(getMatrixMinor(m,0,c))
     return determinant
 
-def getMatrixInverse(m, integral_inverse = False):
+def getMatrixInverse(m):
     determinant = getMatrixDeternminant(m)
 
     # can not find inverse if determinant is 0
@@ -53,7 +53,7 @@ def getMatrixInverse(m, integral_inverse = False):
     inverse = adjoint
     for r in range(len(inverse)):
         for c in range(len(inverse)):
-            inverse[r][c] = (inverse[r][c] // determinant) if integral_inverse else (inverse[r][c] / determinant)
+            inverse[r][c] = inverse[r][c] / determinant
 
     # return inverse
     return (inverse, True)
