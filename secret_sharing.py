@@ -146,20 +146,29 @@ def solve_to_get_polynomial_coeffcients(shared_keys) :
             x.append(i ** j)
         a.append(x)
         b.append([k])
-
-    a_inv = matrix_ops.getMatrixInverse(a)
-    if(a_inv[1] == False) :
+    
+    a_det = matrix_ops.getMatrixDeternminant(a)
+    if(a_det == 0) :
         print("Error: couldn't find inverse of a desired matrix")
         print()
         return ([0], False)
-    a_inv = a_inv[0]
 
-    x = matrix_ops.getMatrixMultiplication(a_inv, b)
+    a_adj = matrix_ops.getMatrixAdjoint(a)
+
+    x = matrix_ops.getMatrixMultiplication(a_adj, b)
 
     x = matrix_ops.transposeMatrix(x)[0]
 
     for i in range(0, len(x)) :
-        x[i] = int(x[i])
+        if(x[i] < 0) :
+            print("Error: ended up calculating negative polynomial coeffcients (must be unsigned integers)")
+            print()
+            return ([0], False)
+        if(x[i] % a_det != 0) :
+            print("Error: ended up calculating polynomial coeffcients with decimal point (must be unsigned integers)")
+            print()
+            return ([0], False)
+        x[i] = x[i] // a_det
 
     return (x, True)
 
