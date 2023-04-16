@@ -31,6 +31,18 @@ def create_secret() :
 
     pass
 
+def is_prime(x):
+    for j in range(2,int(x**0.5)+1):
+        if (x%j==0):
+            return False
+    return True
+
+def next_prime(x):
+    while(True) :
+        x = x + 1
+        if(is_prime(x)) :
+            return x
+
 def share_secret() :
     # receive the number of bits for the big secret
     bits_in_secret = int(input("enter number of bits of the big secret to be shared : "))
@@ -63,6 +75,22 @@ def share_secret() :
     f.close()
 
     print("big secret read : " + hex(big_secret))
+    print()
+
+    # same as n in the paper
+    n = int(input("enter n - the number of individuals to be shared with : "))
+    print()
+
+    # same as threshold k in the paper
+    k = int(input("enter k - the number of individuals that must be present : "))
+    print()
+
+    print("finding prime number bigger than both n and big secret")
+    print()
+
+    p = next_prime(max(n, big_secret))
+
+    print("next largest prime p = " + hex(p)[2:])
     print()
 
     pass
