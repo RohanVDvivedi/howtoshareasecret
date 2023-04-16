@@ -100,10 +100,36 @@ def share_secret() :
     for i in range(0, k-1) :
         coeff_of_polynomial.append(int(numpy.random.uniform() * p))
     
+    # print the coeffcients
     print("printing polynomial that we selected : ")
     for i in range(0, len(coeff_of_polynomial)) :
         print(("  " if (i == 0) else "+ ") + "x ^ " + str(i) + " * " + str(hex(coeff_of_polynomial[i])))
     print()
+
+    print("generating shared keys for the n individuals")
+    print()
+
+    # generating key for the n members
+    shared_keys = {}
+    for i in range(1, n+1) :
+        key = 0
+        for j in range(0, len(coeff_of_polynomial)) :
+            key += ((i ** j) * coeff_of_polynomial[j])
+        # key = key % p
+        shared_keys[i] = key
+    
+    # printing shared keys
+    print("printing shared keys :")
+    print()
+    for i,k in shared_keys.items() :
+        print(str(i) + " : " + hex(k)[2:])
+        print()
+    
+    print("saving shared keys with name as `"+ big_secret_filename +"_<index>`")
+    for i,k in shared_keys.items() :
+        f = open(big_secret_filename + "_" + hex(i)[2:], "w")
+        f.write(hex(k))
+        f.close()
 
     pass
 
