@@ -4,27 +4,25 @@ import numpy
 
 def create_secret() :
     # receive the number of bits in the 
-    bits_in_secret = int(input("enter number of bits of the big secret (it must be a multiple of 4) to be generated : "))
-    if(bits_in_secret % 4 != 0) :
-        print("Error : the nuber of bits in the secret must be a multiple of 4\n")
-        return
+    bits_in_secret = int(input("enter number of bits of the big secret to be generated : "))
     print()
 
     # generate the big secret using the os.random
     big_secret = secrets.randbits(bits_in_secret)
 
     # print rhe big_secret
-    print("your big secret (in hex) : " + hex(big_secret)[2:] + "\n")
+    print("your big secret (in hex) : " + hex(big_secret)[2:])
+    print()
 
     # get file name to save it to
     output_filename = input("enter filename to save the generated big secret : ")
+    print()
 
     # write big secret to output file
     if(output_filename != "") :
         f = open(output_filename, "w")
         f.write(hex(big_secret)[2:])
         f.close()
-        print()
 
     pass
 
