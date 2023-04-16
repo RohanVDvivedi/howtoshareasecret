@@ -155,6 +155,9 @@ def reconstruct_secret() :
         if(key[1] == False) :
             return
         key = key[0]
+        if index in shared_keys :
+            print("Error: invalid keys")
+            return
         shared_keys[index] = key
 
     # printing shared keys
