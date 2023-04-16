@@ -2,6 +2,7 @@ import os
 import secrets
 import struct
 import numpy
+import matrix_ops
 
 def create_secret() :
     # receive the number of bits for the big secret
@@ -146,21 +147,20 @@ def solve_to_get_polynomial_coeffcients(shared_keys) :
         a.append(x)
         b.append([k])
 
-    print(a)
+    a_inv = matrix_ops.getMatrixInverse(a)
+    if(a_inv[0] == False) :
+        print("Error: couldn't find inverse of a desired matrix")
+        print()
+        return ([0], False)
+
+    print(a_inv)
     print(b)
 
-    a = numpy.array(a, dtype = numpy.double)
-    b = numpy.array(b, dtype = numpy.double)
+    x = matrix_ops.getMatrixMultiplication(a_inv, b)
 
-    print(a)
-    print(b)
+    x = matrix_ops.transposeMatrix(x)[0]
 
-    x = numpy.linalg.solve(a,b)
-    #x = numpy.matmul(numpy.linalg.inv(a), b)
-
-    print(x)
-
-    return [3] * len(shared_keys)
+    return (x, True)
 
 def reconstruct_secret() :
     # same as threshold k in the paper
@@ -191,6 +191,11 @@ def reconstruct_secret() :
 
     print("attempting to solve and get coeffcients of the polynomial")
     coeff_of_polynomial = solve_to_get_polynomial_coeffcients(shared_keys)
+    if(coeff_of_polynomial[1] == False) :
+        print("Error: as described above")
+        print()
+        return
+    coeff_of_polynomial = coeff_of_polynomial[0]
 
     # print the coeffcients
     print("printing polynomial that we got : ")

@@ -4,7 +4,11 @@
 '''
 
 def transposeMatrix(m):
-    return map(list,zip(*m))
+    t = [ [0] * len(m) ] * len(m[0])
+    for r in range(0, len(m)) :
+        for c in range(0, len(m[0])) :
+            t[c][r] = m[r][c]
+    return t
 
 def getMatrixMinor(m,i,j):
     return [row[:j] + row[j+1:] for row in (m[:i]+m[i+1:])]
@@ -43,14 +47,16 @@ def getMatrixInverse(m, integral_inverse = False):
     # find adjoint
     adjoint = transposeMatrix(cofactors)
 
+    print(adjoint)
+
     # find inverse
     inverse = adjoint
-    for r in range(len(adjoint)):
+    for r in range(len(inverse)):
         for c in range(len(inverse)):
             inverse[r][c] = (inverse[r][c] // determinant) if integral_inverse else (inverse[r][c] / determinant)
 
     # return inverse
-    return inverse
+    return (inverse, True)
 
 def getMatrixMultiplication(X, Y) :
     result = [ [0] * len(Y[0]) ] * len(X)
