@@ -29,8 +29,6 @@ def create_secret() :
     f.write(hex(big_secret)[2:])
     f.close()
 
-    pass
-
 def is_prime(x):
     for j in range(2,int(x**0.5)+1):
         if (x%j==0):
@@ -139,7 +137,7 @@ def share_secret() :
         f.close()
 
 def solve_to_get_polynomial_coeffcients(shared_keys) :
-    pass
+    return [3] * len(shared_keys)
 
 def reconstruct_secret() :
     # same as threshold k in the paper
