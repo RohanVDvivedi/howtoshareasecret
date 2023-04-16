@@ -137,6 +137,29 @@ def share_secret() :
         f.close()
 
 def solve_to_get_polynomial_coeffcients(shared_keys) :
+    a = []
+    b = []
+    for i, k in shared_keys.items() :
+        x = []
+        for j in range(0, len(shared_keys)) :
+            x.append(i ** j)
+        a.append(x)
+        b.append([k])
+
+    print(a)
+    print(b)
+
+    a = numpy.array(a, dtype = numpy.double)
+    b = numpy.array(b, dtype = numpy.double)
+
+    print(a)
+    print(b)
+
+    x = numpy.linalg.solve(a,b)
+    #x = numpy.matmul(numpy.linalg.inv(a), b)
+
+    print(x)
+
     return [3] * len(shared_keys)
 
 def reconstruct_secret() :
