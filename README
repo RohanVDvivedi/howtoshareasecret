@@ -11,5 +11,6 @@ This project takes advantage of python's bignum implementation which is availabl
 Please refer to [Adi Shamir's How to share a secret? paper](https://web.mit.edu/6.857/OldStuff/Fall03/ref/Shamir-HowToShareASecret.pdf) for more information.
 
 tasks
+ * fixate prime p to some 8192 bit prime number
  * implement only python based matrix multiplication and matrix inversion functions
  * modify everything to use mod prime
