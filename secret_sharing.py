@@ -136,6 +136,14 @@ def share_secret() :
         f.write(hex(k)[2:])
         f.close()
 
+def matmul(X, Y) :
+    result = [ [0] * len(Y[0]) ] * len(X)
+    for i in range(len(X)):
+        for j in range(len(Y[0])):
+            for k in range(len(Y)):
+                result[i][j] += X[i][k] * Y[k][j]
+    return result
+
 def solve_to_get_polynomial_coeffcients(shared_keys) :
     a = []
     b = []
