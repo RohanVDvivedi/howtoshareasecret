@@ -93,6 +93,18 @@ def share_secret() :
     print("next largest prime p = " + hex(p)[2:])
     print()
 
+    # store coeffcients of polynomial in the increasing order of their order in the polynomial
+    # i.e. coeff[0] * x^0 + coeff[1] * x^1 + coeff[2] * x^2 + coeff[3] * x^3 + ...
+    coeff_of_polynomial = []
+    coeff_of_polynomial.append(big_secret)
+    for i in range(0, k-1) :
+        coeff_of_polynomial.append(int(numpy.random.uniform() * p))
+    
+    print("printing polynomial that we selected : ")
+    for i in range(0, len(coeff_of_polynomial)) :
+        print(("  " if (i == 0) else "+ ") + "x ^ " + str(i) + " * " + str(hex(coeff_of_polynomial[i])))
+    print()
+
     pass
 
 def reconstruct_secret() :
