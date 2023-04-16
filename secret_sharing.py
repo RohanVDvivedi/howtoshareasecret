@@ -1,5 +1,6 @@
 import os
 import secrets
+import struct
 import numpy
 
 def create_secret() :
@@ -18,15 +19,52 @@ def create_secret() :
     output_filename = input("enter filename to save the generated big secret : ")
     print()
 
+    if(output_filename == "") :
+        print("Error: file name must not be empty")
+        print()
+        return
+
     # write big secret to output file
-    if(output_filename != "") :
-        f = open(output_filename, "w")
-        f.write(hex(big_secret)[2:])
-        f.close()
+    f = open(output_filename, "w")
+    f.write(hex(big_secret)[2:])
+    f.close()
 
     pass
 
 def share_secret() :
+    # receive the number of bits for the big secret
+    bits_in_secret = int(input("enter number of bits of the big secret to be shared : "))
+    print()
+
+    # get the big secret file name
+    big_secret_filename = input("enter filename to get the big secret : ")
+    print()
+
+    if(big_secret_filename == '') :
+        print("Error: file name must not be empty")
+        print()
+        return
+
+    # read the big secret from the file
+    f = open(big_secret_filename, "r")
+    big_secret = 0
+    for c in f.read() :
+        big_secret = (big_secret << 4)
+        if(ord('0') <= ord(c) and ord(c) <= ord('9')) :
+            big_secret = (big_secret | (ord(c)-ord('0')))
+        elif(ord('a') <= ord(c) and ord(c) <= ord('f')) :
+            big_secret = (big_secret | (ord(c)-ord('a')+10))
+        elif(ord('A') <= ord(c) and ord(c) <= ord('F')) :
+            big_secret = (big_secret | (ord(c)-ord('A')+10))
+        else :
+            print("Error: input file not a hex number")
+            print()
+            return
+    f.close()
+
+    print("big secret read : " + hex(big_secret))
+    print()
+
     pass
 
 def reconstruct_secret() :
