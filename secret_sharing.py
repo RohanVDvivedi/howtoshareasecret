@@ -146,26 +146,15 @@ def solve_to_get_polynomial_coeffcients(shared_keys) :
             x.append(i ** j)
         a.append(x)
         b.append([k])
-    
-    print("a = ")
-    print(a)
-    print("b = ")
-    print(b)
 
-    a_inv = matrix_ops.getMatrixInverse(a, integral_inverse = True)
+    a_inv = matrix_ops.getMatrixInverse(a, integral_inverse = False)
     if(a_inv[1] == False) :
         print("Error: couldn't find inverse of a desired matrix")
         print()
         return ([0], False)
     a_inv = a_inv[0]
 
-    print("ainv = ")
-    print(a_inv)
-
     x = matrix_ops.getMatrixMultiplication(a_inv, b)
-
-    print("x = ")
-    print(x)
 
     x = matrix_ops.transposeMatrix(x)[0]
 

@@ -4,7 +4,9 @@
 '''
 
 def transposeMatrix(m):
-    t = [ [0] * len(m) ] * len(m[0])
+    t = []
+    for i in range (0, len(m[0])) :
+        t.append([0] * len(m))
     for r in range(0, len(m)) :
         for c in range(0, len(m[0])) :
             t[c][r] = m[r][c]
@@ -47,8 +49,6 @@ def getMatrixInverse(m, integral_inverse = False):
     # find adjoint
     adjoint = transposeMatrix(cofactors)
 
-    print(adjoint)
-
     # find inverse
     inverse = adjoint
     for r in range(len(inverse)):
@@ -59,7 +59,9 @@ def getMatrixInverse(m, integral_inverse = False):
     return (inverse, True)
 
 def getMatrixMultiplication(X, Y) :
-    result = [ [0] * len(Y[0]) ] * len(X)
+    result = []
+    for i in range(0, len(X)) :
+        result.append([0] * len(Y[0]))
     for i in range(len(X)):
         for j in range(len(Y[0])):
             for k in range(len(Y)):
