@@ -2,6 +2,7 @@ import secrets
 import numpy
 import matrix_ops
 import gmpy2
+import Crypto.Util.number
 
 def create_secret() :
     # receive the number of bits for the big secret
@@ -90,13 +91,31 @@ def share_secret() :
     k = int(input("enter k - the number of individuals that must be present : "))
     print()
 
-    #print("finding prime number bigger than both n and big secret")
-    #print()
+    # compute p as per the paper
+    # we here assume that n < big_secret, and we need a prime number bigger than both n and the big_secret
+    # so we find a prime number with 1 more bit than the big_secret
+    print("finding prime number consisting " + str(bits_in_secret + 1) + " bits")
+    print()
 
-    p = big_secret * 2 #next_prime(max(n, big_secret))
+    # use pycrypto library to generate the big secret
+    p = Crypto.Util.number.getPrime(4096, randfunc = Crypto.Random.get_random_bytes)
 
-    #print("next largest prime p = " + hex(p))
-    #print()
+    print("prime p = " + hex(p))
+    print()
+
+    # get file name to save it to
+    prime_number_filename = input("enter filename to save the generated prime number : ")
+    print()
+
+    if(prime_number_filename == "") :
+        print("Error: file name for storing the prime p must not be empty")
+        print()
+        return
+
+    # write prime number p to prime_number_filename file
+    f = open(prime_number_filename, "w")
+    f.write(hex(p)[2:])
+    f.close()
 
     # store coeffcients of polynomial in the increasing order of their order in the polynomial
     # i.e. coeff[0] * x^0 + coeff[1] * x^1 + coeff[2] * x^2 + coeff[3] * x^3 + ...
