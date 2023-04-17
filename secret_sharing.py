@@ -155,7 +155,7 @@ def share_secret() :
         f.write(hex(k)[2:])
         f.close()
 
-def solve_to_get_polynomial_coeffcients(shared_keys) :
+def solve_to_get_polynomial_coeffcients(shared_keys, p) :
     a = []
     b = []
     for i, k in shared_keys.items() :
@@ -195,6 +195,7 @@ def reconstruct_secret() :
     k = int(input("enter k - the number of individuals that must be present : "))
     print()
 
+    # read all the shared secret keys
     shared_keys = {}
     for i in range(0, k) :
         rw = input("enter index and shared_key file name (space separated) : ")
@@ -209,17 +210,29 @@ def reconstruct_secret() :
             print("Error: invalid keys")
             return
         shared_keys[index] = key
-
+    
     # printing shared keys
     print("printing shared keys read :")
     print()
     for i,k in shared_keys.items() :
         print(str(i) + " : " + hex(k))
         print()
+    
+    # read the prime number p (as in the paper)
+    prime_number_filename = input("enter file name to read the prime number p : ")
+    print()
+    p = read_hex_from_file(prime_number_filename)
+    if(p[1] == False) :
+        return
+    p = p[0]
+
+    # printing the prime number we read
+    print("prime p = " + p)
+    print()
 
     print("attempting to solve and get coeffcients of the polynomial")
     print()
-    coeff_of_polynomial = solve_to_get_polynomial_coeffcients(shared_keys)
+    coeff_of_polynomial = solve_to_get_polynomial_coeffcients(shared_keys, p)
     if(coeff_of_polynomial[1] == False) :
         print("Error: as described above")
         print()
