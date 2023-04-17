@@ -98,7 +98,7 @@ def share_secret() :
     print()
 
     # use pycrypto library to generate the big secret
-    p = Crypto.Util.number.getPrime(4096, randfunc = Crypto.Random.get_random_bytes)
+    p = Crypto.Util.number.getPrime(bits_in_secret + 1, randfunc = Crypto.Random.get_random_bytes)
 
     print("prime p = " + hex(p))
     print()
