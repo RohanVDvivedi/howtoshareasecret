@@ -227,7 +227,7 @@ def reconstruct_secret() :
     p = p[0]
 
     # printing the prime number we read
-    print("prime p = " + p)
+    print("prime p = " + hex(p))
     print()
 
     print("attempting to solve and get coeffcients of the polynomial")
