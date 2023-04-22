@@ -30,18 +30,6 @@ def create_secret() :
     f.write(hex(big_secret)[2:])
     f.close()
 
-def is_prime(x):
-    for j in range(2, int(gmpy2.sqrt(gmpy2.mpz(x))+1) ):
-        if (x%j==0):
-            return False
-    return True
-
-def next_prime(x):
-    while(True) :
-        x = x + 1
-        if(is_prime(x)) :
-            return x
-
 def read_hex_from_file(filename) :
     f = open(filename, "r")
     val = 0
