@@ -3,6 +3,7 @@ import numpy
 import matrix_ops
 import gmpy2
 import Crypto.Util.number
+import mod_multiplicative_inverse as mmi
 
 def create_secret() :
     # receive the number of bits for the big secret
@@ -127,7 +128,7 @@ def share_secret() :
         key = 0
         for j in range(0, len(coeff_of_polynomial)) :
             key += ((i ** j) * coeff_of_polynomial[j])
-        # key = key % p
+        key = key % p
         shared_keys[i] = key
     
     # printing shared keys
@@ -158,6 +159,13 @@ def solve_to_get_polynomial_coeffcients(shared_keys, p) :
         print("Error: couldn't find inverse of a desired matrix")
         print()
         return ([0], False)
+    
+    a_det_inv = mmi.modinv(a_det, p)
+    if(a_det_inv[1] == False) :
+        print("multiplicate inverse of the determinant (mod prime) does not exist")
+        print()
+        return ([0], False)
+    a_det_inv = a_det_inv[0]
 
     a_adj = matrix_ops.getMatrixAdjoint(a)
 
@@ -166,15 +174,7 @@ def solve_to_get_polynomial_coeffcients(shared_keys, p) :
     x = matrix_ops.transposeMatrix(x)[0]
 
     for i in range(0, len(x)) :
-        if(x[i] < 0) :
-            print("Error: ended up calculating negative polynomial coeffcients (must be unsigned integers)")
-            print()
-            return ([0], False)
-        if(x[i] % a_det != 0) :
-            print("Error: ended up calculating polynomial coeffcients with decimal point (must be unsigned integers)")
-            print()
-            return ([0], False)
-        x[i] = x[i] // a_det
+        x[i] = (x[i] * a_det_inv) % p
 
     return (x, True)
 
