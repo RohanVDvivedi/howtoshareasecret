@@ -1,7 +1,5 @@
 import secrets
-import numpy
 import matrix_ops
-import gmpy2
 import Crypto.Util.number
 import mod_multiplicative_inverse as mmi
 
@@ -111,7 +109,7 @@ def share_secret() :
     coeff_of_polynomial = []
     coeff_of_polynomial.append(big_secret)
     for i in range(0, k-1) :
-        coeff_of_polynomial.append(int(numpy.random.uniform() * gmpy2.mpz(p)))
+        coeff_of_polynomial.append(secrets.randbits(bits_in_secret + 1) % p)
     
     # print the coeffcients
     print("printing polynomial that we selected : ")
